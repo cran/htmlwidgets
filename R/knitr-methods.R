@@ -33,6 +33,11 @@ registerMethods <- function(methods) {
   ))
 }
 
+.onAttach <- function(...) {
+  # warn if the version of shiny is lower than what was specified in DESCRIPTION
+  checkShinyVersion(error = FALSE)
+}
+
 knit_print.htmlwidget <- function(x, ..., options = NULL) {
   knitr::knit_print(toHTML(x, standalone = FALSE, knitrOptions = options), options = options,  ...)
 }

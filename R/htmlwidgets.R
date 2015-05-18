@@ -1,5 +1,5 @@
 #' @export
-print.htmlwidget <- function(x, ...) {
+print.htmlwidget <- function(x, ..., view = interactive()) {
 
   # if we have a viewer then forward viewer pane height (if any)
   viewer <- getOption("viewer")
@@ -23,15 +23,15 @@ print.htmlwidget <- function(x, ...) {
   }
 
   # call html_print with the viewer
-  html_print(htmltools::as.tags(x, standalone=TRUE), viewer = viewerFunc)
+  html_print(htmltools::as.tags(x, standalone=TRUE), viewer = if (view) viewerFunc)
 
   # return value
   invisible(x)
 }
 
 #' @export
-print.suppress_viewer <- function(x, ...) {
-  html_print(htmltools::as.tags(x, standalone=TRUE), viewer = browseURL)
+print.suppress_viewer <- function(x, ..., view = interactive()) {
+  html_print(htmltools::as.tags(x, standalone=TRUE), viewer = if (view) browseURL)
   invisible(x)
 }
 
@@ -85,7 +85,7 @@ toHTML <- function(x, standalone = FALSE, knitrOptions = NULL) {
     widget_data(x, id),
     if (!is.null(sizeInfo$runtime)) {
       tags$script(type="application/htmlwidget-sizing", `data-for` = id,
-        toJSON(sizeInfo$runtime, collapse="", digits = 16)
+        toJSON(sizeInfo$runtime)
       )
     }
   )
@@ -122,54 +122,52 @@ widget_dependencies <- function(name, package){
 # Generates a <script type="application/json"> tag with the JSON-encoded data,
 # to be picked up by htmlwidgets.js for static rendering.
 widget_data <- function(x, id, ...){
-  evals <- JSEvals(x$x)
   tags$script(type="application/json", `data-for` = id,
-    HTML(toJSON(list(x = x$x, evals = evals), collapse = "", digits = 16))
+    HTML(toJSON(createPayload(x)))
   )
 }
 
-#'Create an HTML Widget
+#' Create an HTML Widget
 #'
-#'Create an HTML widget based on widget YAML and JavaScript contained within the
-#'specified package.
+#' Create an HTML widget based on widget YAML and JavaScript contained within
+#' the specified package.
 #'
-#'@param name Widget name (should match the base name of the YAML and JavaScript
-#'  files used to implement the widget)
-#'@param x Widget instance data (underlying data to render and options that
-#'  govern how it's rendered). This value will be converted to JSON using
-#'  \code{\link[RJSONIO:toJSON]{RJSONIO::toJSON}} and made available to the
-#'  widget's JavaScript \code{renderValue} function.
-#'@param width Fixed width for widget (in css units). The default is
-#'  \code{NULL}, which results in intelligent automatic sizing based on the
-#'  widget's container.
-#'@param height Fixed height for widget (in css units). The default is
-#'  \code{NULL}, which results in intelligent automatic sizing based on the
-#'  widget's container.
-#'@param sizingPolicy Options that govern how the widget is sized in various
-#'  containers (e.g. a standalone browser, the RStudio Viewer, a knitr figure,
-#'  or a Shiny output binding). These options can be specified by calling the
-#'  \code{\link{sizingPolicy}} function.
-#'@param package Package where the widget is defined (defaults to the widget
-#'  name).
-#'@param dependencies Additional widget HTML dependencies (over and above those
-#'  defined in the widget YAML). This is useful for dynamic dependencies that
-#'  only exist when selected widget options are enabled (e.g. sets of map tiles
-#'  or projections).
-#'@param elementId Use an explicit element ID for the widget (rather than an
-#'  automatically generated one). Useful if you have other JavaScript that needs
-#'  to explicitly discover and interact with a specific widget instance.
+#' For additional details on developing widgets, see package vignettes:
+#' \code{vignette("htmlwidgets-intro", package = "htmlwidgets")}.
 #'
-#'@details
+#' @param name Widget name (should match the base name of the YAML and
+#'   JavaScript files used to implement the widget)
+#' @param x Widget instance data (underlying data to render and options that
+#'   govern how it's rendered). This value will be converted to JSON using
+#'   \code{\link[jsonlite]{toJSON}} and made available to the widget's
+#'   JavaScript \code{renderValue} function.
+#' @param width Fixed width for widget (in css units). The default is
+#'   \code{NULL}, which results in intelligent automatic sizing based on the
+#'   widget's container.
+#' @param height Fixed height for widget (in css units). The default is
+#'   \code{NULL}, which results in intelligent automatic sizing based on the
+#'   widget's container.
+#' @param sizingPolicy Options that govern how the widget is sized in various
+#'   containers (e.g. a standalone browser, the RStudio Viewer, a knitr figure,
+#'   or a Shiny output binding). These options can be specified by calling the
+#'   \code{\link{sizingPolicy}} function.
+#' @param package Package where the widget is defined (defaults to the widget
+#'   name).
+#' @param dependencies Additional widget HTML dependencies (over and above those
+#'   defined in the widget YAML). This is useful for dynamic dependencies that
+#'   only exist when selected widget options are enabled (e.g. sets of map tiles
+#'   or projections).
+#' @param elementId Use an explicit element ID for the widget (rather than an
+#'   automatically generated one). Useful if you have other JavaScript that
+#'   needs to explicitly discover and interact with a specific widget instance.
+#' @param preRenderHook A function to be run on the widget, just prior to
+#'   rendering. It accepts the entire widget object as input, and should return
+#'   a modified widget object.
 #'
-#'For additional details on developing widgets:
-#'
-#'\code{vignette("htmlwidgets-intro")}
-#'
-#'@return An object of class \code{htmlwidget} that will intelligently print
-#'  itself into HTML in a variety of contexts including the R console, within R
-#'  Markdown documents, and within Shiny output bindings.
-#'
-#'@export
+#' @return An object of class \code{htmlwidget} that will intelligently print
+#'   itself into HTML in a variety of contexts including the R console, within R
+#'   Markdown documents, and within Shiny output bindings.
+#' @export
 createWidget <- function(name,
                          x,
                          width = NULL,
@@ -177,7 +175,8 @@ createWidget <- function(name,
                          sizingPolicy = htmlwidgets::sizingPolicy(),
                          package = name,
                          dependencies = NULL,
-                         elementId = NULL) {
+                         elementId = NULL,
+                         preRenderHook = NULL) {
   # Turn single dependency object into list of dependencies, if necessary
   if (inherits(dependencies, "html_dependency"))
     dependencies <- list(dependencies)
@@ -187,7 +186,8 @@ createWidget <- function(name,
          height = height,
          sizingPolicy = sizingPolicy,
          dependencies = dependencies,
-         elementId = elementId),
+         elementId = elementId,
+         preRenderHook = preRenderHook),
     class = c(name,
               if (sizingPolicy$viewer$suppress) "suppress_viewer",
               "htmlwidget"),
@@ -209,7 +209,7 @@ createWidget <- function(name,
 #' @param package Package containing widget (defaults to \code{name})
 #' @param outputFunction Shiny output function corresponding to this render
 #'   function.
-#' @param expr An expression that generates a networkD3 graph
+#' @param expr An expression that generates an HTML widget
 #' @param env The environment in which to evaluate \code{expr}.
 #' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #'   is useful if you want to save an expression in a variable.
@@ -222,8 +222,6 @@ createWidget <- function(name,
 #'   the same for all widgets (see example below).
 #'
 #' @examples
-#' \dontrun{
-#'
 #' # shiny output binding for a widget named 'foo'
 #' fooOutput <- function(outputId, width = "100%", height = "400px") {
 #'   htmlwidgets::shinyWidgetOutput(outputId, "foo", width, height)
@@ -234,13 +232,12 @@ createWidget <- function(name,
 #'   if (!quoted) { expr <- substitute(expr) } # force quoted
 #'   htmlwidgets::shinyRenderWidget(expr, fooOutput, env, quoted = TRUE)
 #' }
-#' }
-#'
 #' @name htmlwidgets-shiny
 #'
 #' @export
 shinyWidgetOutput <- function(outputId, name, width, height, package = name) {
 
+  checkShinyVersion()
   # generate html
   html <- htmltools::tagList(
     widget_html(name, package, id = outputId,
@@ -262,6 +259,7 @@ shinyWidgetOutput <- function(outputId, name, width, height, package = name) {
 #' @export
 shinyRenderWidget <- function(expr, outputFunction, env, quoted) {
 
+  checkShinyVersion()
   # generate a function for the expression
   func <- shiny::exprToFunction(expr, env, quoted)
 
@@ -273,17 +271,37 @@ shinyRenderWidget <- function(expr, outputFunction, env, quoted) {
         instance$elementId, "\"; Shiny doesn't use them"
       )
     }
-    x <- .subset2(instance, "x")
     deps <- .subset2(instance, "dependencies")
     deps <- lapply(
       htmltools::resolveDependencies(deps),
       shiny::createWebDependency
     )
-    evals = JSEvals(x)
-    list(x = x, evals = evals, deps = deps)
+    payload <- c(createPayload(instance), list(deps = deps))
+    toJSON(payload)
   }
 
   # mark it with the output function so we can use it in Rmd files
   shiny::markRenderFunction(outputFunction, renderFunc)
+}
+
+checkShinyVersion <- function(error = TRUE) {
+  x <- utils::packageDescription('htmlwidgets', fields = 'Enhances')
+  r <- '^.*?shiny \\(>= ([0-9.]+)\\).*$'
+  if (is.na(x) || length(grep(r, x)) == 0 || system.file(package = 'shiny') == '')
+    return()
+  v <- gsub(r, '\\1', x)
+  f <- if (error) stop else packageStartupMessage
+  if (utils::packageVersion('shiny') < v)
+    f("Please upgrade the 'shiny' package to (at least) version ", v)
+}
+
+# Helper function to create payload
+createPayload <- function(instance){
+  if (!is.null(instance$preRenderHook)){
+    instance <- instance$preRenderHook(instance)
+    instance$preRenderHook <- NULL
+  }
+  x <- .subset2(instance, "x")
+  list(x = x, evals = JSEvals(x))
 }
 
