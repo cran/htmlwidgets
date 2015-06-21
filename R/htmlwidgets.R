@@ -122,9 +122,16 @@ widget_dependencies <- function(name, package){
 # Generates a <script type="application/json"> tag with the JSON-encoded data,
 # to be picked up by htmlwidgets.js for static rendering.
 widget_data <- function(x, id, ...){
-  tags$script(type="application/json", `data-for` = id,
-    HTML(toJSON(createPayload(x)))
-  )
+  # It's illegal for </script> to appear inside of a script tag, even if it's
+  # inside a quoted string. Fortunately we know that in JSON, the only place
+  # the '<' character can appear is inside a quoted string, where a Unicode
+  # escape has the same effect, without confusing the browser's parser. The
+  # repro for the bug this gsub fixes is to have the string "</script>" appear
+  # anywhere in the data/metadata of a widget--you will get a syntax error
+  # instead of a properly rendered widget.
+  payload <- toJSON(createPayload(x))
+  payload <- gsub("</(script)>", "\\\\u003c/\\1>", payload, ignore.case = TRUE)
+  tags$script(type = "application/json", `data-for` = id, HTML(payload))
 }
 
 #' Create an HTML Widget
