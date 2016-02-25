@@ -28,11 +28,13 @@ pandoc_self_contained_html <- function(input, output) {
   template <- tempfile(fileext = ".html")
   writeLines("$body$", template)
 
-  # call pandoc with from format of "markdown_strict" to
-  # get as close as possible to html -> html conversion
+  # convert from markdown to html to get base64 encoding
+  # (note there is no markdown in the source document but
+  # we still need to do this "conversion" to get the
+  # base64 encoding)
   pandoc_convert(
     input = input,
-    from = "markdown_strict",
+    from = "markdown",
     output = output,
     options = c(
       "--self-contained",
@@ -77,6 +79,10 @@ pandoc_convert <- function(input,
 
   # additional command line options
   args <- c(args, options)
+
+  # set pandoc stack size
+  stack_size <- getOption("pandoc.stack.size", default = "512m")
+  args <- c(c("+RTS", paste0("-K", stack_size), "-RTS"), args)
 
   # build the conversion command
   command <- paste(quoted(pandoc()), paste(quoted(args), collapse = " "))
@@ -155,17 +161,23 @@ with_pandoc_safe_environment <- function(code) {
     on.exit(Sys.setenv(LC_CTYPE = lc_ctype), add = TRUE)
   }
   if (Sys.info()['sysname'] == "Linux" &&
-        is.na(Sys.getenv("HOME", unset = NA))) {
+      is.na(Sys.getenv("HOME", unset = NA))) {
     stop("The 'HOME' environment variable must be set before running Pandoc.")
   }
   if (Sys.info()['sysname'] == "Linux" &&
-        is.na(Sys.getenv("LANG", unset = NA))) {
+      is.na(Sys.getenv("LANG", unset = NA))) {
     # fill in a the LANG environment variable if it doesn't exist
     Sys.setenv(LANG=detect_generic_lang())
     on.exit(Sys.unsetenv("LANG"), add = TRUE)
   }
+  if (Sys.info()['sysname'] == "Linux" &&
+      identical(Sys.getenv("LANG"), "en_US")) {
+    Sys.setenv(LANG="en_US.UTF-8")
+    on.exit(Sys.setenv(LANG="en_US"), add = TRUE)
+  }
   force(code)
 }
+
 
 # if there is no LANG environment variable set pandoc is going to hang so
 # we need to specify a "generic" lang setting. With glibc >= 2.13 you can

@@ -31,53 +31,17 @@ scaffoldWidget <- function(name, bowerPkg = NULL, edit = interactive()){
 }
 
 addWidgetConstructor <- function(name, package, edit){
-  tpl <- "#' <Add Title>
-#'
-#' <Add Description>
-#'
-#' @import htmlwidgets
-#'
-#' @export
-%s <- function(message, width = NULL, height = NULL) {
-
-  # forward options using x
-  x = list(
-    message = message
-  )
-
-  # create widget
-  htmlwidgets::createWidget(
-    name = '%s',
-    x,
-    width = width,
-    height = height,
-    package = '%s'
-  )
-}
-
-#' Widget output function for use in Shiny
-#'
-#' @export
-%sOutput <- function(outputId, width = '100%%', height = '400px'){
-  shinyWidgetOutput(outputId, '%s', width, height, package = '%s')
-}
-
-#' Widget render function for use in Shiny
-#'
-#' @export
-render%s <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) } # force quoted
-  shinyRenderWidget(expr, %sOutput, env, quoted = TRUE)
-}
-"
+  tpl <- paste(readLines(
+    system.file('templates/widget_r.txt', package = 'htmlwidgets')
+  ), collapse = "\n")
 
   capName = function(name){
     paste0(toupper(substring(name, 1, 1)), substring(name, 2))
   }
   if (!file.exists(file_ <- sprintf("R/%s.R", name))){
     cat(
-      sprintf(tpl, name, name, package, name, name, package,
-              capName(name), name),
+      sprintf(tpl, name, name, package, name, name, name, name, name, name,
+         package, name, capName(name), name),
       file = file_
     )
     message('Created boilerplate for widget constructor ', file_)
@@ -115,32 +79,10 @@ addWidgetYAML <- function(name, bowerPkg, edit){
 }
 
 addWidgetJS <- function(name, edit){
-  tpl <- "HTMLWidgets.widget({
+  tpl <- paste(readLines(
+    system.file('templates/widget_js.txt', package = 'htmlwidgets')
+  ), collapse = "\n")
 
-  name: '%s',
-
-  type: 'output',
-
-  initialize: function(el, width, height) {
-
-    return {
-      // TODO: add instance fields as required
-    }
-
-  },
-
-  renderValue: function(el, x, instance) {
-
-    el.innerText = x.message;
-
-  },
-
-  resize: function(el, width, height, instance) {
-
-  }
-
-});
-"
   if (!file.exists(file_ <- sprintf('inst/htmlwidgets/%s.js', name))){
     cat(sprintf(tpl, name), file = file_)
     message('Created boilerplate for widget javascript bindings at ',

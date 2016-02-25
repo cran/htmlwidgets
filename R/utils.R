@@ -12,7 +12,7 @@ toJSON2 <- function(
   )
 }
 
-if (requireNamespace('shiny')) local({
+if (requireNamespace('shiny') && packageVersion('shiny') >= '0.12.0') local({
   tryCatch({
     toJSON <- getFromNamespace('toJSON', 'shiny')
     args2 <- formals(toJSON2)
@@ -46,16 +46,21 @@ getDependency <- function(name, package = name){
     do.call(htmlDependency, l)
   })
 
-  # Create a dependency that will cause the jsfile and only the jsfile (rather
-  # than all of its filesystem siblings) to be copied
-  bindingDir <- tempfile("widgetbinding")
-  dir.create(bindingDir, mode = "0700")
-  file.copy(system.file(jsfile, package = package), bindingDir)
-
-  bindingDep <- htmlDependency(paste0(name, "-binding"), packageVersion(package),
-    bindingDir,
-    script = basename(jsfile)
-  )
+  bindingDir <- system.file("htmlwidgets", package = package)
+  argsDep <- NULL
+  copyBindingDir <- getOption('htmlwidgets.copybindingdir', TRUE)
+  # TODO: remove this trick when htmltools >= 0.3.3 is on CRAN
+  if (copyBindingDir) {
+    if (packageVersion('htmltools') < '0.3.3') {
+      bindingDir <- tempfile("widgetbinding")
+      dir.create(bindingDir, mode = "0700")
+      file.copy(system.file(jsfile, package = package), bindingDir)
+    } else argsDep <- list(all_files = FALSE)
+  }
+  bindingDep <- do.call(htmlDependency, c(list(
+    paste0(name, "-binding"), packageVersion(package),
+    bindingDir, script = basename(jsfile)
+  ), argsDep))
 
   c(
     list(htmlDependency("htmlwidgets", packageVersion("htmlwidgets"),
@@ -110,7 +115,7 @@ JS <- function(...) {
   x <- c(...)
   if (is.null(x)) return()
   if (!is.character(x))
-    stop("The arguments for JS() must be a chraracter vector")
+    stop("The arguments for JS() must be a character vector")
   x <- paste(x, collapse = '\n')
   structure(x, class = unique(c("JS_EVAL", oldClass(x))))
 }
@@ -157,3 +162,50 @@ shouldEval <- function(options) {
 }
 # JSEvals(list(list(foo.bar=JS("hi"), baz.qux="bye"))) == "0.foo\\.bar"
 
+#' Execute JavaScript code after static render
+#'
+#' Convenience function for wrapping a JavaScript code string with a
+#' \code{<script>} tag and the boilerplate necessary to delay the execution of
+#' the code until after the next time htmlwidgets completes rendering any
+#' widgets that are in the page. This mechanism is designed for running code to
+#' customize widget instances, which can't be done at page load time since the
+#' widget instances will not have been created yet.
+#'
+#' Each call to \code{onStaticRenderComplete} will result in at most one
+#' invocation of the given code. In some edge cases in Shiny, it's possible for
+#' static rendering to happen more than once (e.g. a \code{renderUI} that
+#' contains static HTML widgets). \code{onStaticRenderComplete} calls only
+#' schedule execution for the next static render operation.
+#'
+#' The pure JavaScript equivalent of \code{onStaticRenderComplete} is
+#' \code{HTMLWidgets.addPostRenderHandler(callback)}, where \code{callback} is a
+#' JavaScript function that takes no arguments.
+#'
+#' @param jsCode A character vector containing JavaScript code. No R error will
+#'   be raised if the code is invalid, not even on JavaScript syntax errors.
+#'   However, the web browser will throw errors at runtime.
+#' @return An htmltools \code{\link[htmltools]{tags}$script} object.
+#'
+#' @examples
+#' \dontrun{
+#' library(leaflet)
+#' library(htmltools)
+#' library(htmlwidgets)
+#'
+#' page <- tagList(
+#'   leaflet() %>% addTiles(),
+#'   onStaticRenderComplete(
+#'     "HTMLWidgets.find('.leaflet').setZoom(4);"
+#'   )
+#' )
+#' print(page, browse = TRUE)
+#' }
+#'
+#' @export
+onStaticRenderComplete <- function(jsCode) {
+  tags$script(
+    "HTMLWidgets.addPostRenderHandler(function() {",
+    HTML(paste0(jsCode, collapse = "\n")),
+    "});"
+  )
+}
