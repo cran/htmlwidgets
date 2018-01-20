@@ -11,10 +11,12 @@
 #'   filename_files).
 #' @param background Text string giving the html background color of the widget.
 #'   Defaults to white.
+#' @param title Text to use as the title of the generated page.
 #' @param knitrOptions A list of \pkg{knitr} chunk options.
 #' @export
 saveWidget <- function(widget, file, selfcontained = TRUE, libdir = NULL,
-                       background = "white", knitrOptions = list()) {
+                       background = "white", title = class(widget)[[1]],
+                       knitrOptions = list()) {
 
   # convert to HTML tags
   html <- toHTML(widget, standalone = TRUE, knitrOptions = knitrOptions)
@@ -25,11 +27,13 @@ saveWidget <- function(widget, file, selfcontained = TRUE, libdir = NULL,
       sep = "")
   }
 
-  # save the file
-  htmltools::save_html(html, file = file, libdir = libdir, background=background)
-
   # make it self-contained if requested
   if (selfcontained) {
+
+    # Save the file
+    # Include a title; pandoc 2.0 complains if you don't have one
+    pandoc_save_markdown(html, file = file, libdir = libdir,
+                         background = background, title = title)
 
     if (!pandoc_available()) {
       stop("Saving a widget with selfcontained = TRUE requires pandoc. For details see:\n",
@@ -38,6 +42,10 @@ saveWidget <- function(widget, file, selfcontained = TRUE, libdir = NULL,
 
     pandoc_self_contained_html(file, file)
     unlink(libdir, recursive = TRUE)
+  } else {
+    # no pandoc needed if not selfcontained
+    html <- tagList(tags$head(tags$title(title)), html)
+    htmltools::save_html(html, file = file, libdir = libdir, background = background)
   }
 
   invisible(NULL)
