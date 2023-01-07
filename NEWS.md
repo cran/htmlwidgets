@@ -1,3 +1,10 @@
+htmlwidgets 1.6.1
+------------------------------------------------------
+
+### Bug fixes
+
+* Closed #456: Fixed an issue where widgets were no longer being resized properly when rendered in a standalone fashion. (#458)
+
 htmlwidgets 1.6.0
 -------------------------------------------------------
 
