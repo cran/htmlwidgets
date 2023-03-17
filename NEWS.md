@@ -1,3 +1,8 @@
+htmlwidgets 1.6.2
+------------------------------------------------------
+
+* Closed #452: `as.tag.htmlwidget()` now includes `...` in it's function signature (for compatibility with the `htmltools::as.tags` generic).
+
 htmlwidgets 1.6.1
 ------------------------------------------------------
 

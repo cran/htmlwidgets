@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2023-01-06" />
+<meta name="date" content="2023-03-17" />
 
 <title>HTML Widgets: Advanced Topics</title>
 
@@ -426,7 +426,7 @@ display: none;
 
 
 <h1 class="title toc-ignore">HTML Widgets: Advanced Topics</h1>
-<h4 class="date">2023-01-06</h4>
+<h4 class="date">2023-03-17</h4>
 
 </div>
 
@@ -522,14 +522,14 @@ become:</p>
 widget accepts a data frame containing network links on the R side, then
 transforms it to a d3 representation within the JavaScript
 <code>renderValue</code> function:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>renderValue<span class="op">:</span> <span class="kw">function</span>(x) {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// convert links data frame to d3 friendly format</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> links <span class="op">=</span> HTMLWidgets<span class="op">.</span><span class="fu">dataframeToD3</span>(x<span class="op">.</span><span class="at">links</span>)<span class="op">;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ... use the links, etc ...</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>renderValue<span class="op">:</span> <span class="kw">function</span>(x) {</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="co">// convert links data frame to d3 friendly format</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="kw">var</span> links <span class="op">=</span> HTMLWidgets<span class="op">.</span><span class="fu">dataframeToD3</span>(x<span class="op">.</span><span class="at">links</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  </span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="co">// ... use the links, etc ...</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="htmlwidgets.transposearray2d" class="section level3">
 <h3>HTMLWidgets.transposeArray2D()</h3>
@@ -557,15 +557,15 @@ an example array:</p>
 <p>As a real example, the <a href="https://rstudio.github.io/dygraphs/">dygraphs</a> widget uses this
 function to transpose the “file” (data) argument it gets from the R side
 before passing it on to the dygraphs library:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>renderValue<span class="op">:</span> <span class="kw">function</span>(x) {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ... code excluded ...</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">// transpose array</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    x<span class="op">.</span><span class="at">attrs</span><span class="op">.</span><span class="at">file</span> <span class="op">=</span> HTMLWidgets<span class="op">.</span><span class="fu">transposeArray2D</span>(x<span class="op">.</span><span class="at">attrs</span><span class="op">.</span><span class="at">file</span>)<span class="op">;</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ... more code excluded ...</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>renderValue<span class="op">:</span> <span class="kw">function</span>(x) {</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>   </span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="co">// ... code excluded ...</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="co">// transpose array</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    x<span class="op">.</span><span class="at">attrs</span><span class="op">.</span><span class="at">file</span> <span class="op">=</span> HTMLWidgets<span class="op">.</span><span class="fu">transposeArray2D</span>(x<span class="op">.</span><span class="at">attrs</span><span class="op">.</span><span class="at">file</span>)<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    </span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>    <span class="co">// ... more code excluded ...</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="custom-json-serializer" class="section level3">
 <h3>Custom JSON serializer</h3>
@@ -580,59 +580,59 @@ function.</p>
 <li><p><code>jsonlite::toJSON()</code> has a lot of arguments, and we
 have already changed some of its default values. Below is the JSON
 serializer we use in <strong>htmlwidgets</strong> at the moment:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span> (x, ..., <span class="at">dataframe =</span> <span class="st">&quot;columns&quot;</span>, <span class="at">null =</span> <span class="st">&quot;null&quot;</span>, <span class="at">na =</span> <span class="st">&quot;null&quot;</span>, </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">auto_unbox =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="fu">getOption</span>(<span class="st">&quot;shiny.json.digits&quot;</span>, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="dv">16</span>), <span class="at">use_signif =</span> <span class="cn">TRUE</span>, <span class="at">force =</span> <span class="cn">TRUE</span>, <span class="at">POSIXt =</span> <span class="st">&quot;ISO8601&quot;</span>, </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">UTC =</span> <span class="cn">TRUE</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>, <span class="at">keep_vec_names =</span> <span class="cn">TRUE</span>, <span class="at">strict_atomic =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (strict_atomic) </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        x <span class="ot">&lt;-</span> <span class="fu">I</span>(x)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    jsonlite<span class="sc">::</span><span class="fu">toJSON</span>(x, <span class="at">dataframe =</span> dataframe, <span class="at">null =</span> null, <span class="at">na =</span> na, </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">auto_unbox =</span> auto_unbox, <span class="at">digits =</span> digits, <span class="at">use_signif =</span> use_signif, </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">force =</span> force, <span class="at">POSIXt =</span> POSIXt, <span class="at">UTC =</span> UTC, <span class="at">rownames =</span> rownames, </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">keep_vec_names =</span> keep_vec_names, <span class="at">json_verbatim =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        ...)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>bytecode<span class="sc">:</span> <span class="dv">0x130bbe2d0</span><span class="sc">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="cf">function</span> (x, ..., <span class="at">dataframe =</span> <span class="st">&quot;columns&quot;</span>, <span class="at">null =</span> <span class="st">&quot;null&quot;</span>, <span class="at">na =</span> <span class="st">&quot;null&quot;</span>, </span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="at">auto_unbox =</span> <span class="cn">TRUE</span>, <span class="at">digits =</span> <span class="fu">getOption</span>(<span class="st">&quot;shiny.json.digits&quot;</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>        <span class="dv">16</span>), <span class="at">use_signif =</span> <span class="cn">TRUE</span>, <span class="at">force =</span> <span class="cn">TRUE</span>, <span class="at">POSIXt =</span> <span class="st">&quot;ISO8601&quot;</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="at">UTC =</span> <span class="cn">TRUE</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>, <span class="at">keep_vec_names =</span> <span class="cn">TRUE</span>, <span class="at">strict_atomic =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>{</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    <span class="cf">if</span> (strict_atomic) </span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>        x <span class="ot">&lt;-</span> <span class="fu">I</span>(x)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>    jsonlite<span class="sc">::</span><span class="fu">toJSON</span>(x, <span class="at">dataframe =</span> dataframe, <span class="at">null =</span> null, <span class="at">na =</span> na, </span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>        <span class="at">auto_unbox =</span> auto_unbox, <span class="at">digits =</span> digits, <span class="at">use_signif =</span> use_signif, </span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>        <span class="at">force =</span> force, <span class="at">POSIXt =</span> POSIXt, <span class="at">UTC =</span> UTC, <span class="at">rownames =</span> rownames, </span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>        <span class="at">keep_vec_names =</span> keep_vec_names, <span class="at">json_verbatim =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>        ...)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>}</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="sc">&lt;</span>bytecode<span class="sc">:</span> <span class="dv">0x15703f5d8</span><span class="sc">&gt;</span></span></code></pre></div>
 <p>For example, we convert data frames to JSON by columns instead of
 rows (the latter is <code>jsonlite::toJSON</code>’s default). If you
 want to change the default values of any arguments, you can attach an
 attribute <code>TOJSON_ARGS</code> to the widget data to be passed to
 <code>createWidget()</code>, e.g.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fooWidget <span class="ot">&lt;-</span> <span class="cf">function</span>(data, name, ...) {</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ... process the data ...</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">foo =</span> data, <span class="at">bar =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># customize toJSON() argument values</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attr</span>(params, <span class="st">&#39;TOJSON_ARGS&#39;</span>) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">digits =</span> <span class="dv">7</span>, <span class="at">na =</span> <span class="st">&#39;string&#39;</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  htmlwidgets<span class="sc">::</span><span class="fu">createWidget</span>(name, <span class="at">x =</span> params, ...)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>fooWidget <span class="ot">&lt;-</span> <span class="cf">function</span>(data, name, ...) {</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="co"># ... process the data ...</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">foo =</span> data, <span class="at">bar =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="co"># customize toJSON() argument values</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">attr</span>(params, <span class="st">&#39;TOJSON_ARGS&#39;</span>) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">digits =</span> <span class="dv">7</span>, <span class="at">na =</span> <span class="st">&#39;string&#39;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  htmlwidgets<span class="sc">::</span><span class="fu">createWidget</span>(name, <span class="at">x =</span> params, ...)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>We changed the default value of <code>digits</code> from 16 to 7, and
 <code>na</code> from <code>null</code> to <code>string</code> in the
 above example. It is up to you, the package author, whether you want to
 expose such customization to users. For example, you can leave an extra
 argument in your widget function so that users can customize the
 behavior of the JSON serializer:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fooWidget <span class="ot">&lt;-</span> <span class="cf">function</span>(data, name, ..., <span class="at">JSONArgs =</span> <span class="fu">list</span>(<span class="at">digits =</span> <span class="dv">7</span>)) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ... process the data ...</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">foo =</span> data, <span class="at">bar =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># customize toJSON() argument values</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attr</span>(params, <span class="st">&#39;TOJSON_ARGS&#39;</span>) <span class="ot">&lt;-</span> JSONArgs</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  htmlwidgets<span class="sc">::</span><span class="fu">createWidget</span>(name, <span class="at">x =</span> params, ...)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>fooWidget <span class="ot">&lt;-</span> <span class="cf">function</span>(data, name, ..., <span class="at">JSONArgs =</span> <span class="fu">list</span>(<span class="at">digits =</span> <span class="dv">7</span>)) {</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="co"># ... process the data ...</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">foo =</span> data, <span class="at">bar =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="co"># customize toJSON() argument values</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">attr</span>(params, <span class="st">&#39;TOJSON_ARGS&#39;</span>) <span class="ot">&lt;-</span> JSONArgs</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  htmlwidgets<span class="sc">::</span><span class="fu">createWidget</span>(name, <span class="at">x =</span> params, ...)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>You can also use a global option <code>htmlwidgets.TOJSON_ARGS</code>
 to customize the JSON serializer arguments for all widgets in the
 current R session, e.g.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">htmlwidgets.TOJSON_ARGS =</span> <span class="fu">list</span>(<span class="at">digits =</span> <span class="dv">7</span>, <span class="at">pretty =</span> <span class="cn">TRUE</span>))</span></code></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">options</span>(<span class="at">htmlwidgets.TOJSON_ARGS =</span> <span class="fu">list</span>(<span class="at">digits =</span> <span class="dv">7</span>, <span class="at">pretty =</span> <span class="cn">TRUE</span>))</span></code></pre></div></li>
 <li><p>If you do not want to use <strong>jsonlite</strong>, you can
 completely override the serializer function by attaching an attribute
 <code>TOJSON_FUNC</code> to the widget data, e.g.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fooWidget <span class="ot">&lt;-</span> <span class="cf">function</span>(data, name, ...) {</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ... process the data ...</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">foo =</span> data, <span class="at">bar =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># customize the JSON serializer</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attr</span>(params, <span class="st">&#39;TOJSON_FUNC&#39;</span>) <span class="ot">&lt;-</span> MY_OWN_JSON_FUNCTION</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  htmlwidgets<span class="sc">::</span><span class="fu">createWidget</span>(name, <span class="at">x =</span> params, ...)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>fooWidget <span class="ot">&lt;-</span> <span class="cf">function</span>(data, name, ...) {</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="co"># ... process the data ...</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  params <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">foo =</span> data, <span class="at">bar =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="co"># customize the JSON serializer</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">attr</span>(params, <span class="st">&#39;TOJSON_FUNC&#39;</span>) <span class="ot">&lt;-</span> MY_OWN_JSON_FUNCTION</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  htmlwidgets<span class="sc">::</span><span class="fu">createWidget</span>(name, <span class="at">x =</span> params, ...)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>Here <code>MY_OWN_JSON_FUNCTION</code> can be an arbitrary R function
 that converts R objects to JSON. If you have also specified the
 <code>TOJSON_ARGS</code> attribute, it will be passed to your custom
@@ -657,22 +657,22 @@ a <code>dyCallbacks</code> function that allows the user to provide
 callback functions for a variety of contexts. These callbacks are
 “marked” as containing JavaScript so that they can be converted to
 actual JavaScript functions on the client:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>callbacks <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">clickCallback =</span> <span class="fu">JS</span>(clickCallback)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">drawCallback =</span> <span class="fu">JS</span>(drawCallback)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">highlightCallback =</span> <span class="fu">JS</span>(highlightCallback)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pointClickCallback =</span> <span class="fu">JS</span>(pointClickCallback)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">underlayCallback =</span> <span class="fu">JS</span>(underlayCallback)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>callbacks <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="at">clickCallback =</span> <span class="fu">JS</span>(clickCallback)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="at">drawCallback =</span> <span class="fu">JS</span>(drawCallback)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="at">highlightCallback =</span> <span class="fu">JS</span>(highlightCallback)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="at">pointClickCallback =</span> <span class="fu">JS</span>(pointClickCallback)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="at">underlayCallback =</span> <span class="fu">JS</span>(underlayCallback)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>)</span></code></pre></div>
 <p>Another example is in the <a href="https://rstudio.github.io/DT/">DT</a> (DataTables) widget, where
 users can specify an <code>initCallback</code> with JavaScript to
 execute after the table is loaded and initialized:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(<span class="fu">head</span>(iris, <span class="dv">20</span>), <span class="at">options =</span> <span class="fu">list</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">initComplete =</span> <span class="fu">JS</span>(</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;function(settings, json) {&quot;</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;$(this.api().table().header()).css({&#39;background-color&#39;: &#39;#000&#39;, &#39;color&#39;: &#39;#fff&#39;});&quot;</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;}&quot;</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">datatable</span>(<span class="fu">head</span>(iris, <span class="dv">20</span>), <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="at">initComplete =</span> <span class="fu">JS</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="st">&quot;function(settings, json) {&quot;</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="st">&quot;$(this.api().table().header()).css({&#39;background-color&#39;: &#39;#000&#39;, &#39;color&#39;: &#39;#fff&#39;});&quot;</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    <span class="st">&quot;}&quot;</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>))</span></code></pre></div>
 <p>If multiple arguments are passed to <code>JS()</code> (as in the
 above example), they will be concatenated into a single string separated
 by <code>\n</code>.</p>
@@ -685,9 +685,9 @@ default behavior for new widgets that don’t specify otherwise. However,
 sometimes you need a different element type. For example, the <a href="https://github.com/htmlwidgets/sparkline">sparkline</a> widget
 requires a <code>&lt;span&gt;</code> element so implements the following
 custom HTML generation function:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>widget_html.sparkline <span class="ot">&lt;-</span> <span class="cf">function</span>(id, style, class, ...){</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">span</span>(<span class="at">id =</span> id, <span class="at">class =</span> class)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>widget_html.sparkline <span class="ot">&lt;-</span> <span class="cf">function</span>(id, style, class, ...){</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">span</span>(<span class="at">id =</span> id, <span class="at">class =</span> class)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>}</span></code></pre></div>
 <p>Note that this function is looked up within the package implementing
 the widget by the convention
 <code>widget_html.<em>widgetname</em></code> so it need not be formally
