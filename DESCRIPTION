@@ -1,7 +1,7 @@
 Type: Package
 Package: htmlwidgets
 Title: HTML Widgets for R
-Version: 1.6.3
+Version: 1.6.4
 Authors@R: c(
     person("Ramnath", "Vaidyanathan", role = c("aut", "cph")),
     person("Yihui", "Xie", role = "aut"),
@@ -27,7 +27,7 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2023-11-22 01:37:38 UTC; cpsievert
+Packaged: 2023-12-06 00:11:16 UTC; cpsievert
 Author: Ramnath Vaidyanathan [aut, cph],
   Yihui Xie [aut],
   JJ Allaire [aut],
@@ -38,4 +38,4 @@ Author: Ramnath Vaidyanathan [aut, cph],
   Posit Software, PBC [cph, fnd]
 Maintainer: Carson Sievert <carson@posit.co>
 Repository: CRAN
-Date/Publication: 2023-11-22 09:50:02 UTC
+Date/Publication: 2023-12-06 06:00:06 UTC
